@@ -33,6 +33,41 @@ COLORS = [
 ]
 BG = (0, 0, 0)  # Черный фон
 
+COLOR_PROFILES = [
+    # 2-bit классика
+    ["#FF00FF", "#FFFFFF", "#00FFFF", "#000000"],
+    # NES палитра
+    ["#FF6B6B", "#4ECDC4", "#45B7D1", "#000000"],
+    # Commodore 64
+    ["#6C5CE7", "#A29BFE", "#FD79A8", "#000000"],
+    # Atari 2600
+    ["#FFD93D", "#FF6B35", "#6BCF7F", "#000000"],
+    # Amstrad CPC
+    ["#FF0000", "#00FF00", "#FFFF00", "#000000"],
+    # ZX Spectrum
+    ["#FF0000", "#00FF00", "#0000FF", "#000000"],
+    # MSX палитра
+    ["#FF6666", "#66FF66", "#6666FF", "#000000"],
+    # Apple II
+    ["#FF2400", "#00FF00", "#0080FF", "#000000"],
+    # Sega Genesis
+    ["#FF0040", "#00FF40", "#4080FF", "#000000"],
+    # PICO-8
+    ["#FF004D", "#00E436", "#29ADFF", "#000000"],
+    # Монохром зеленый
+    ["#00FF00", "#00AA00", "#005500", "#000000"],
+    # Монохром янтарный
+    ["#FFBF00", "#FF8000", "#CC4000", "#000000"],
+]
+
+def get_random_profile():
+    global COLORS, BG
+    profile = random.choice(COLOR_PROFILES)
+    # Преобразуем hex-коды в RGB tuple
+    rgb = [tuple(int(profile[i][j:j+2], 16) for j in (1, 3, 5)) for i in range(len(profile))]
+    print(profile)
+    COLORS = rgb
+
 # Переменные управления
 paused = False
 selected_particle_type = 0  # Тип частицы для создания (0, 1, 2)
@@ -569,6 +604,7 @@ while True:
             elif event.key == pygame.K_SPACE:
                 paused = not paused
             elif event.key == pygame.K_r:
+                get_random_profile()
                 init_simulation()
             elif event.key == pygame.K_c:
                 clear_screen()
